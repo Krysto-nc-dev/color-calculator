@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Mix Calculator</title>
+    <link rel="icon" type="image/x-icon" href="/178390.ico">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    <!-- Language Selector -->
+    <div class="absolute top-4 right-4 z-50">
+        <label for="lang-select" class="text-white">Select Language:</label>
+        <select id="lang-select"
+            class="p-2 ml-2 bg-white rounded border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+            <option value="en">English</option>
+            <option value="fr">Français</option>
+            <option value="de">Deutsch</option>
+        </select>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-gray-800 text-white py-4 px-6 flex items-center justify-between">
+        <div class="flex items-center">
+            <img src="/178390.ico" alt="Icon" class="h-8 mr-2">
+            <span class="text-lg font-bold" data-lang="en">KRYSTO</span>
+            <span class="text-xs ml-1" data-lang="en">&copy; 2024</span>
+        </div>
+        <div>
+            <a href="mailto:contact@krysto.nc" class="text-xs" data-lang="en">contact@krysto.nc</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div id="app" class="p-6 max-w-5xl mx-auto flex-grow bg-white rounded-lg shadow-md">
+        <h1 class="text-2xl font-bold mb-4" data-lang="en">Color Mixing Calculator</h1>
+        <div id="controls" class="mb-6">
+            <div class="mb-4">
+                <label for="totalWeight" class="block text-sm font-medium text-gray-700" data-lang="en">Total Weight
+                    (grams)</label>
+                <input id="totalWeight" type="number" value="500"
+                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+            <div class="mb-4 flex justify-between items-center">
+                <button id="toggleMode"
+                    class="inline-flex items-center px-5 py-3 bg-indigo-600 text-white rounded-full hover:bg-indigo-700"
+                    data-lang="en">Enter
+                    in Grams</button>
+            </div>
+        </div>
+        <h2 id="mode-title" class="text-lg font-semibold mb-4" data-lang="en">Color Percentages</h2>
+        <div id="color-inputs" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-4"></div>
+        <div id="results">
+
+            <h2 class="text-lg font-semibold mb-4" data-lang="en">Color Weights</h2>
+            <table class="min-w-full bg-white border-collapse rounded-lg shadow">
+                <thead>
+                    <tr class="border-b-2 border-gray-200">
+                        <th class="py-3 px-4 bg-indigo-600 text-white rounded-tl-lg" data-lang="en">Color</th>
+                        <th id="weight-header" class="py-3 px-4 bg-indigo-600 text-white rounded-tr-lg" data-lang="en">
+                            Weight (grams)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="results-body" class="text-center">
+                    <!-- Table content generated dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-4 px-6 mt-auto">
+        <div class="flex justify-center items-center">
+            <div>
+                <p class="text-xs" data-lang="en">&copy; 2024 KRYSTO. All rights reserved.</p>
+                <p class="text-xs" data-lang="en">Contact: <a href="mailto:contact@krysto.nc"
+                        class="underline">contact@krysto.nc</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const langSelect = document.getElementById('lang-select');
+
+            langSelect.addEventListener('change', function () {
+                const lang = langSelect.value;
+                translatePage(lang);
+            });
+
+            function translatePage(lang) {
+                const elementsToTranslate = document.querySelectorAll('[data-lang]');
+
+                elementsToTranslate.forEach(element => {
+                    const key = element.getAttribute('data-lang');
+                    switch (lang) {
+                        case 'en':
+                            if (translations[key] && translations[key]['en']) {
+                                element.textContent = translations[key]['en'];
+                            }
+                            break;
+                        case 'fr':
+                            if (translations[key] && translations[key]['fr']) {
+                                element.textContent = translations[key]['fr'];
+                            }
+                            break;
+                        case 'de':
+                            if (translations[key] && translations[key]['de']) {
+                                element.textContent = translations[key]['de'];
+                            }
+                            break;
+                        default:
+                            if (translations[key] && translations[key]['en']) {
+                                element.textContent = translations[key]['en'];
+                            }
+                            break;
+                    }
+                });
+
+                // Traduire les entrées de couleur
+                const colorInputs = document.querySelectorAll('#color-inputs label');
+                colorInputs.forEach((input, index) => {
+                    if (translations[colors[index].name] && translations[colors[index].name][lang]) {
+                        input.textContent = translations[colors[index].name][lang];
+                    }
+                });
+            }
+
+            const translations = {
+                "KRYSTO": {
+                    "en": "KRYSTO",
+                    "fr": "KRYSTO",
+                    "de": "KRYSTO"
+                },
+                "Color Mixing Calculator": {
+                    "en": "Color Mixing Calculator",
+                    "fr": "Calculateur de Mélange de Couleurs",
+                    "de": "Farbmischrechner"
+                },
+                "Total Weight (grams)": {
+                    "en": "Total Weight (grams)",
+                    "fr": "Poids Total (grammes)",
+                    "de": "Gesamtgewicht (Gramm)"
+                },
+                "Enter in Grams": {
+                    "en": "Enter in Grams",
+                    "fr": "Entrer par Grammes",
+                    "de": "Eingabe in Gramm"
+                },
+                "Color Percentages": {
+                    "en": "Color Percentages",
+                    "fr": "Pourcentages des Couleurs",
+                    "de": "Farbanteile"
+                },
+                "Color Weights": {
+                    "en": "Color Weights",
+                    "fr": "Grammage des Couleurs",
+                    "de": "Farbgewichte"
+                },
+                "&copy; 2024 KRYSTO. All rights reserved.": {
+                    "en": "&copy; 2024 KRYSTO. All rights reserved.",
+                    "fr": "&copy; 2024 KRYSTO. Tous droits réservés.",
+                    "de": "&copy; 2024 KRYSTO. Alle Rechte vorbehalten."
+                },
+                "Contact: contact@krysto.nc": {
+                    "en": "Contact: contact@krysto.nc",
+                    "fr": "Contact : contact@krysto.nc",
+                    "de": "Kontakt: contact@krysto.nc"
+                },
+                "Bleu": {
+                    "en": "Blue",
+                    "fr": "Bleu",
+                    "de": "Blau"
+                },
+                "Bleu clair": {
+                    "en": "Light Blue",
+                    "fr": "Bleu clair",
+                    "de": "Hellblau"
+                },
+                "Jaune": {
+                    "en": "Yellow",
+                    "fr": "Jaune",
+                    "de": "Gelb"
+                },
+                "Rouge": {
+                    "en": "Red",
+                    "fr": "Rouge",
+                    "de": "Rot"
+                },
+                "Vert": {
+                    "en": "Green",
+                    "fr": "Vert",
+                    "de": "Grün"
+                },
+                "Noir": {
+                    "en": "Black",
+                    "fr": "Noir",
+                    "de": "Schwarz"
+                },
+                "Blanc": {
+                    "en": "White",
+                    "fr": "Blanc",
+                    "de": "Weiß"
+                },
+                "Transparent": {
+                    "en": "Transparent",
+                    "fr": "Transparent",
+                    "de": "Transparent"
+                },
+                "Orange": {
+                    "en": "Orange",
+                    "fr": "Orange",
+                    "de": "Orange"
+                },
+                "Marron": {
+                    "en": "Brown",
+                    "fr": "Marron",
+                    "de": "Braun"
+                },
+                "Gris": {
+                    "en": "Gray",
+                    "fr": "Gris",
+                    "de": "Grau"
+                },
+                "Or": {
+                    "en": "Gold",
+                    "fr": "Or",
+                    "de": "Gold"
+                },
+                "Violet": {
+                    "en": "Purple",
+                    "fr": "Violet",
+                    "de": "Violett"
+                },
+                "Rose": {
+                    "en": "Pink",
+                    "fr": "Rose",
+                    "de": "Rosa"
+                }
+            };
+
+            // Initial translation based on current language selection
+            translatePage(langSelect.value);
+        });
+    </script>
+</body>
+
+</html>

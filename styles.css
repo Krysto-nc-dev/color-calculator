@@ -1,0 +1,16 @@
+/* styles.css */
+
+/* Centrer le texte dans tbody */
+#results-body td {
+    text-align: center;
+}
+
+/* Couleur légèrement différente pour le champ "Couleur" */
+#results-body td:first-child {
+    background-color: #b0cdea; /* Utilisation d'une teinte plus claire */
+    font-weight: bold;
+}
+#results-body td:last-child {
+    background-color: rgba(79, 70, 229, 0.4);
+  
+}
