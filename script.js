@@ -217,6 +217,7 @@ document.addEventListener('DOMContentLoaded', function () {
         message = 'Total percentage reached 100%'
         disableInputs() // Désactiver les inputs
       } else {
+        message = '' // Remettre le message à vide si le total n'est pas atteint
         enableInputs() // Activer les inputs
       }
     } else {
@@ -225,6 +226,7 @@ document.addEventListener('DOMContentLoaded', function () {
         message = `Total weight reached ${totalWeight} grams`
         disableInputs() // Désactiver les inputs
       } else {
+        message = '' // Remettre le message à vide si le total n'est pas atteint
         enableInputs() // Activer les inputs
       }
     }
